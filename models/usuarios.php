@@ -2,6 +2,14 @@
 
 class usuarios extends model{
 
+	private $uid;
+
+	public function __construct($id = ''){
+		parent::__construct();
+		if(!empty($id)){
+			$this->uid = $id;
+		}
+	}
 	public function isLogged(){
 		if(isset($_SESSION['twlg']) && !empty($_SESSION['twlg'])){
 			return true;
@@ -52,5 +60,58 @@ class usuarios extends model{
 		}else{
 			return false;
 		}
+	}
+
+	public function getNome(){
+		if(!empty($this->uid)){
+			$sql = "SELECT NOME FROM USUARIOS WHERE ID=:id";
+			$sql = $this->db->prepare($sql);
+			$sql->bindValue(':id',$this->uid);
+			$sql->execute();
+
+			if($sql->rowCount()>0){
+				$sql = $sql->fetch();
+				return $sql['NOME'];
+			}
+		}
+	}
+
+	public function countSeguidos(){
+		$sql = "SELECT COUNT(ID) as QTD FROM RELACIONAMENTO WHERE ID_SEGUIDOR = :id";
+		$sql = $this->db->prepare($sql);
+			$sql->bindValue(':id',$this->uid);
+			$sql->execute();
+
+			if($sql->rowCount()>0){
+				$sql = $sql->fetch();
+				return $sql['QTD'];
+			}else{
+				return 0;
+			}
+	}
+	public function countSeguidores(){
+		$sql = "SELECT COUNT(ID) as QTD FROM RELACIONAMENTO WHERE ID_SEGUIDO = :id";
+		$sql = $this->db->prepare($sql);
+			$sql->bindValue(':id',$this->uid);
+			$sql->execute();
+
+			if($sql->rowCount()>0){
+				$sql = $sql->fetch();
+				return $sql['QTD'];
+			}else{
+				return 0;
+			}
+	}
+
+	public function getUsuarios($limite){
+		$array = array();
+		$sql = "SELECT * FROM USUARIOS WHERE ID != {$this->uid} LIMIT $limite";
+		$sql = $this->db->query($sql);
+		
+
+		if($sql->rowCount() > 0){
+			$array = $sql->fetchAll();
+		}
+		return $array;
 	}
 }
