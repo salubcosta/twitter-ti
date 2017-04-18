@@ -13,6 +13,13 @@ class homeController extends controller{
 	}
 
 	public function index(){
-		$this->carregarTemplate('home',[]);
+		$dados = array('nome'=>'');
+		$u = new usuarios($_SESSION['twlg']);
+
+		$dados['nome'] = $u->getNome();
+		$dados['qtdSeguidos'] = $u->countSeguidos();
+		$dados['qtdSeguidores'] = $u->countSeguidores();
+		$dados['sugestao'] = $u->getUsuarios(5);
+		$this->carregarTemplate('home', $dados);
 	}
 }
