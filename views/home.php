@@ -18,8 +18,11 @@
 		<tr>
 			<td><?php echo $usuario['NOME'];?></td>
 			<td>
-				<a href="#">Seguir</a>
-			</td>
+				<?php if($usuario['SEGUIDO']==0):?>
+					<a href="<?php echo URL?>/home/seguir/<?php echo $usuario['ID'];?>">Seguir</a>
+				<?php else: ?>
+					<a href="<?php echo URL;?>/home/abandonar/<?php echo $usuario['ID'];?>">Abandonar</a>
+				<?php endif;?>
 		</tr>
 		<?php endforeach; ?>
 	</table>
