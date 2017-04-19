@@ -6,7 +6,7 @@ if(ENVIRONMENT == 'development'){
 	define('HOST','localhost');
 	define('DBNAME','db_twitter');
 	define('DBUSER','root');
-	define('DBPASS','root');
+	define('DBPASS','');
 }else{
 	//INFORMAÇÕES DO AMBIENTE DE PRODUÇÃO
 	define('HOST',''); 
