@@ -18,10 +18,15 @@ class usuarios extends model{
 		}
 	}
 
-	public function usuarioExiste($email){
-		$sql = "SELECT * FROM USUARIOS where EMAIL=:email";
+	public function usuarioExiste($param, $id=""){
+		if(!empty($id)){
+			$sql = "SELECT * FROM USUARIOS where id=:param";
+			$param = $id;
+		}else{
+			$sql = "SELECT * FROM USUARIOS where EMAIL=:param";
+		}
 		$sql = $this->db->prepare($sql);
-		$sql->bindValue(':email',$email);
+		$sql->bindValue(':param',$param);
 
 		$sql->execute();
 
@@ -105,7 +110,13 @@ class usuarios extends model{
 
 	public function getUsuarios($limite){
 		$array = array();
-		$sql = "SELECT * FROM USUARIOS WHERE ID != {$this->uid} LIMIT $limite";
+		$sql = 
+		"SELECT 
+			*, (SELECT COUNT(R.ID) FROM RELACIONAMENTO R WHERE R.ID_SEGUIDOR = {$this->uid} AND R.ID_SEGUIDO=U.ID) as SEGUIDO
+		FROM 
+			USUARIOS U
+		WHERE U.ID != {$this->uid} LIMIT $limite";
+
 		$sql = $this->db->query($sql);
 		
 
