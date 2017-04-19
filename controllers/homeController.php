@@ -22,4 +22,26 @@ class homeController extends controller{
 		$dados['sugestao'] = $u->getUsuarios(5);
 		$this->carregarTemplate('home', $dados);
 	}
+
+	public function seguir($id=""){
+		if(!empty($id)){
+			$u = new usuarios();
+			if($u->usuarioExiste('',$id)){
+				$r = new relacionamento();
+				$r->seguir($_SESSION['twlg'],addslashes($id));
+			}
+		}
+		header('Location: '.URL.'/home');
+	}
+
+	public function abandonar($id){
+		if(!empty($id)){
+			$u = new usuarios();
+			if($u->usuarioExiste('',$id)){
+				$r = new relacionamento();
+				$r->abandonar($_SESSION['twlg'],addslashes($id));
+			}
+		}
+		header('Location: '.URL.'/home');
+	}
 }
