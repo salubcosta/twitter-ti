@@ -1,5 +1,14 @@
 <div class="feed">
-	Feeds...
+	<form method="POST">
+		<textarea name="msg" class="post"></textarea>
+		<input type="submit" value="Enviar">
+	</form>
+
+	<?php foreach($feed as $item): ?>
+	<strong><?php echo $item['NOME']; ?></strong> - <?php echo date('H:i', strtotime($item['DATA_POST']));?><br />
+	<?php echo $item['MENSAGEM']; ?>
+	<hr />
+	<?php endforeach; ?>
 </div>
 
 <div class="rightside">
