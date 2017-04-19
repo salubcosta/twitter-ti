@@ -107,7 +107,6 @@ class usuarios extends model{
 				return 0;
 			}
 	}
-
 	public function getUsuarios($limite){
 		$array = array();
 		$sql = 
@@ -124,5 +123,19 @@ class usuarios extends model{
 			$array = $sql->fetchAll();
 		}
 		return $array;
+	}
+	public function getSeguidos(){
+		$seguidos = array();
+		$sql = "SELECT ID_SEGUIDO FROM RELACIONAMENTO WHERE ID_SEGUIDOR = :id";
+		$sql = $this->db->prepare($sql);
+		$sql->bindValue(':id',$this->uid);
+		$sql->execute();
+
+		if($sql->rowCount()>0){
+			foreach($sql->fetchAll() as $seg):
+				$seguidos[] = $seg['ID_SEGUIDO'];
+			endforeach;
+		}
+		return $seguidos;
 	}
 }
