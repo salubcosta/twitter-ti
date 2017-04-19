@@ -23,6 +23,7 @@
 				<?php else: ?>
 					<a href="<?php echo URL;?>/home/abandonar/<?php echo $usuario['ID'];?>">Abandonar</a>
 				<?php endif;?>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
